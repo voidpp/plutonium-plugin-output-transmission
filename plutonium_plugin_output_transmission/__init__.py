@@ -3,10 +3,12 @@ import base64
 import transmissionrpc
 
 from plutonium.plugins.plugin import OutputPluginBase
-from plutonium.modules.tools import xml_element_to_storage
+from plutonium.modules.tools import xml_element_to_storage, Storage
 from plutonium.modules.logger import get_logger
 
 logger = get_logger(__name__, 'plutonium')
+
+from plutonium.modules.orm.types import StructField as Field
 
 class TransmissionOutputPlugin(OutputPluginBase):
 
@@ -15,6 +17,7 @@ class TransmissionOutputPlugin(OutputPluginBase):
         self.clients = {}
 
     def get_required_params_struct(self):
+        """
         return dict(
             host = str,
             port = int,
@@ -26,6 +29,18 @@ class TransmissionOutputPlugin(OutputPluginBase):
                 password = str
             )
         )
+        """
+        return [
+            Field('host', str, required = True),
+            Field('port', int, default = 9091, required = True),
+            Field('path', str, default = '/transmission/rpc', required = True),
+            Field('ssl', bool, default = False),
+            Field('auth', nodes = [
+                Field('enabled', bool, default = False),
+                Field('username', str),
+                Field('password', str)
+            ])
+        ]
 
     def get_client(self, output):
         if output.id not in self.clients:

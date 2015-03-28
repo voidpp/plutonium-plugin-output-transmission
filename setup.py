@@ -1,10 +1,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="Plutonium transmission output plugin",
-    version='0.1',
-    install_requires=[
+    name = 'plutonium-plugin-output-transmission',
+    description = 'Transmission output plugin for Plutonium',
+    version = '0.1',
+    install_requires = [
+        'plutonium',
+        'sqlchemyforms',
+        'transmissionrpc',
     ],
-    packages=find_packages()
+    packages = find_packages()
 )
 
